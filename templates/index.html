@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tesla Stock Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Roboto', sans-serif; text-align: center; padding: 50px; background: #f7f7f7; }
+    h1 { margin-bottom: 30px; }
+    #chartContainer { width: 80%; margin: auto; }
+  </style>
+</head>
+<body>
+  <h1>Tesla Stock Price Prediction</h1>
+  <div id="chartContainer">
+    <canvas id="myChart">
+
+    </canvas>
+  </div>
+  <script>
+    const actual = {{ actual | tojson }};
+    const predicted = {{ predicted | tojson }};
+    const labels = Array.from({length: actual.length}, (_, i) => i + 1);
+
+
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Actual Prices',
+        data: actual,
+        borderColor: '#007bff',
+        fill: false
+      },{
+        label: 'Predicted Prices',
+        data: predicted,
+        borderColor: 'red',
+        fill: false
+      }]
+    };
+    const config = {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' }, title: { display: true, text: 'Tesla Stock Price Prediction' } },
+        scales: {
+          x: { title: { display: true, text: 'Time Steps' } },
+          y: { title: { display: true, text: 'Adjusted Price' } }
+        }
+      }
+    };
+    new Chart(document.getElementById('myChart'), config);
+  </script>
+
+
+</body>
+</html>
